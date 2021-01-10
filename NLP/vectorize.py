@@ -55,7 +55,7 @@ def idf_vectorizer(corpus, *, smooth=True, **kwargs):
     }
 
 
-def tfidf_vectorizer(corpus, *, idfs=None, **kwargs):
+def tfidf_vectorizer(*, corpus=None, idfs=None, **kwargs):
     if idfs is None:
         idfs = idf_vectorizer(corpus, **kwargs)
     return lambda text: {
