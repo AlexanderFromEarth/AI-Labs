@@ -25,16 +25,16 @@ def euclide(vector_1, vector_2):
 
 
 def jaccard(vector_1, vector_2):
-    return reduce(
-        lambda p, c: p + min(c[0], c[1]), zip(vector_1, vector_2), 0
-    ) / reduce(lambda p, c: p + max(c[0], c[1]), zip(vector_1, vector_2), 0)
+    return soft_division(
+        reduce(lambda p, c: p + min(c[0], c[1]), zip(vector_1, vector_2), 0),
+        reduce(lambda p, c: p + max(c[0], c[1]), zip(vector_1, vector_2), 0),
+    )
 
 
 def dice(vector_1, vector_2):
-    return (
-        2
-        * reduce(lambda p, c: p + min(c[0], c[1]), zip(vector_1, vector_2), 0)
-        / reduce(lambda p, c: p + c[0] + c[1], zip(vector_1, vector_2), 0)
+    return 2 * soft_division(
+        reduce(lambda p, c: p + min(c[0], c[1]), zip(vector_1, vector_2), 0),
+        reduce(lambda p, c: p + c[0] + c[1], zip(vector_1, vector_2), 0),
     )
 
 

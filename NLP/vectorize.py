@@ -43,21 +43,20 @@ def tf_vectorizer(*, words=[], **kwargs):
     }
 
 
-def idf_vectorizer(corpus, *, smooth=True, **kwargs):
+def idf_vectorizer(corpus, *, words=[], **kwargs):
     corpus = list(corpus)
     return {
-        word: (1 if smooth else 0)
-        + log(
-            len(corpus)
-            / ((1 if smooth else 0) + sum(int(word in text) for text in corpus)),
+        word: log(
+            len(corpus) / (sum(text[word] > 0 for text in corpus)),
         )
-        for word in set(word for text in corpus for word in text)
+        for word in words
     }
 
 
-def tfidf_vectorizer(*, corpus=None, idfs=None, **kwargs):
+def tfidf_vectorizer(*, corpus=None, iidfs=None, words=[], **kwargs):
+    idfs = iidfs
     if idfs is None:
-        idfs = idf_vectorizer(corpus, **kwargs)
+        idfs = idf_vectorizer(corpus, words=words, **kwargs)
     return lambda text: {
         word: freq * idfs[word] for word, freq in tf_vectorizer(**kwargs)(text).items()
     }
