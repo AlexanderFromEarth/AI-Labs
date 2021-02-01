@@ -1,10 +1,13 @@
 from gensim.utils import tokenize
-from gensim.parsing.porter import PorterStemmer
+from nltk.stem.snowball import SnowballStemmer
 
 from utils import compose
 
 
-preprocessors = [tokenize, PorterStemmer().stem_documents]
+preprocessors = [
+    lambda text: list(tokenize(text)),
+    lambda g: (SnowballStemmer("russian", True).stem(g_) for g_ in g),
+]
 stop_words = []
 
 

@@ -30,9 +30,19 @@ def read_docx(path):
             text.append(p.text)
 
 
+def read_doc(path):
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            if match(r"^$", line):
+                pass
+            else:
+                yield line
+
+
 read_exts = {
     ".txt": read_text,
     ".docx": read_docx,
+    ".doc": read_doc,
 }
 
 
